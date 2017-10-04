@@ -94,7 +94,7 @@ function love.keyreleased(key)
     -- Enable or disable vsync
     if key == 's' then
         local ww, wh, mode = love.window.getMode( )
-        love.window.setMode(ww, wh, { vsync= not mode.vsync})
+        love.window.setMode(ww, wh, { fullscreen = mode.fullscreen, vsync= not mode.vsync})
     end
     -- Exit main menu
     if key == 'q' then
