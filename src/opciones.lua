@@ -5,12 +5,12 @@ local arrow, changes, temp, op, windows, currenrW
 function options:load()
 
     arrow = {}
-    arrow.img = love.graphics.newImage("arrow.png")
+    arrow.img = love.graphics.newImage('arrow.png')
     arrow.pos = 1
         
     local wW, wH, full = love.window.getMode( )
     
-    if full["fullscreen"] then
+    if full['fullscreen'] then
         currenrW = 5
     elseif wW == 800 and wH == 600 then
         currenrW = 1
@@ -22,17 +22,17 @@ function options:load()
         currenrW = 4
     end
 
-    windows = {{"800x600",800,600, false},
-               {"1000x750",1000,750, false},
-               {"1200x900",1200,900, false},
-               {"1600x1200",1600,1200, false},
-               {"Full Screen",1600,1200, true}}
+    windows = {{'800x600',800,600, false},
+               {'1000x750',1000,750, false},
+               {'1200x900',1200,900, false},
+               {'1600x1200',1600,1200, false},
+               {'Full Screen',1600,1200, true}}
 
-    op = {  "SFX" .. " " .. (sfxV * 100),
-            "Musica"  .. " " .. (musicV * 100),
-            "Pantalla" .. " " .. windows[currenrW][1],
-            "Guardar",
-            "Menu"}
+    op = {  'SFX' .. ' ' .. (sfxV * 100),
+            'Musica'  .. ' ' .. (musicV * 100),
+            'Pantalla' .. ' ' .. windows[currenrW][1],
+            'Guardar',
+            'Menu'}
 
     changes = false
 
@@ -48,14 +48,14 @@ local function change(amount, dt)
         help = math.floor(sfxV * 100 + amount * 10 + 0.1)
         if help <= 100 and help >= 0 then
             sfxV = help/100
-            op[1] = "SFX" .. " " .. help
+            op[1] = 'SFX' .. ' ' .. help
             changes = true
         end
     elseif arrow.pos == 2 then
         help = math.floor(musicV * 100 + amount * 10 + 0.1)
         if help <= 100 and help >= 0 then
             musicV = help/100
-            op[2] = "Musica" .. " " .. help
+            op[2] = 'Musica' .. ' ' .. help
             changes = true
         end
     elseif arrow.pos == 3 then
@@ -67,9 +67,8 @@ local function change(amount, dt)
         else
             currenrW = help
         end
-        op[3] = "Pantalla" .. " " ..  windows[currenrW][1]
-        love.window.setMode( windows[currenrW][2], windows[currenrW][3])
-        love.window.setFullscreen(windows[currenrW][4])
+        op[3] = 'Pantalla' .. ' ' ..  windows[currenrW][1]
+        love.window.setMode( windows[currenrW][2], windows[currenrW][3], {fullscreen = windows[currenrW][4]})
         constants:Resize()
         changes = true
     end
@@ -80,17 +79,21 @@ function options:update(dt)
 
     temp = temp - dt
     local key = love.keyboard.isDown
-    if key("w") and temp < 0 then arrow.pos, temp = arrow.pos - 1, 0.3 end
-    if key("s") and temp < 0 then arrow.pos, temp = arrow.pos + 1, 0.3 end
-    if key("a") and temp < 0 then 
+    if key('w') and temp < 0 then arrow.pos, temp = arrow.pos - 1, 0.3 end
+    if key('s') and temp < 0 then arrow.pos, temp = arrow.pos + 1, 0.3 end
+    if key('a') and temp < 0 then 
         change(-1, dt)
         temp = 0.3
     end
-    if key("d") and temp < 0 then
+    if key('d') and temp < 0 then
         change( 1, dt)
         temp = 0.3
     end
-    if key("return") and arrow.pos == 5 and temp < 0 then return "menu" end
+    if key('return') and arrow.pos == 4 and temp < 0 then 
+        constants:Save()
+        temp = 0.3 
+    end
+    if key('return') and arrow.pos == 5 and temp < 0 then return 'menu' end
     if arrow.pos < 1 then arrow.pos = 5 end
     if arrow.pos > 5 then arrow.pos = 1 end
 
@@ -99,7 +102,7 @@ end
 function options:draw()
     local r, v, a = love.graphics.getColor()
     local mV, sV = musicV * 100, sfxV * 100
-    local fh = front:getHeight(" ")
+    local fh = front:getHeight(' ')
     
     for i, s in pairs(op) do
         local fw = front:getWidth(s)
