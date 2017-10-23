@@ -21,5 +21,5 @@ function love.draw()
     love.graphics.scale(scaleX, scaleY)
     state:draw()
     love.graphics.pop()
-    --constants:Debug()
+    constants:Debug()
 end

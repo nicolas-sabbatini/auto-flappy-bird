@@ -85,26 +85,13 @@ local function colition(bird, pipe)
                 bird.alive = false
             end
 end
--- Controls
-function love.keyreleased(key)
-    -- Kill the current generation
-    if key == 'k' then
-        killAndReproduce(bird)
-    end
-    -- Enable or disable vsync
-    if key == 's' then
-        local ww, wh, mode = love.window.getMode( )
-        love.window.setMode(ww, wh, { fullscreen = mode.fullscreen, vsync= not mode.vsync})
-    end
-    -- Exit main menu
-    if key == 'q' then
-        function game:update(dt) return 'menu' end
-    end
-end
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
 function game:load()
+
+    input = require('simpleKey')
+    input:keyInit({'k','s','q'})
     
     -- Set the seed
     --math.randomseed(1)
@@ -144,6 +131,21 @@ function game:load()
 end
 
 function game:update(dt)
+
+    input:updateInput()
+
+    -- Kill the current generation
+    if input:isReleased('k') then killAndReproduce(bird) end
+    -- Enable or disable vsync
+    if input:isReleased('s') then
+        local ww, wh, mode = love.window.getMode( )
+        love.window.setMode(ww, wh, { fullscreen = mode.fullscreen, vsync= not mode.vsync})
+    end
+    -- Exit main menu
+    if input:isReleased('q') then
+        function game:update(dt) return 'menu' end
+    end
+
     -- Every frame the game is going to move foward 0.005 sec
     local dt = 0.005
     local dead = 0
