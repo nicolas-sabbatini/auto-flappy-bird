@@ -33,10 +33,9 @@ function cons:Save()
         file = love.filesystem.newFile('ConfSetings.lua')
     end
     -- Create a table whit the configurations options and write to the configuration file
-    local data = 'return { windowsWidth = ' .. Realww .. ', windowsHeight = ' .. Realwh .. ', musicVolume = ' .. musicV
-                .. ', sfxVolume = ' .. sfxV .. ', fullScreen = '.. tostring(fullScreen) ..'}'
+    local data = 'return { \nwindowsWidth = ' .. Realww .. ',\n windowsHeight = ' .. Realwh .. ',\n musicVolume = ' .. musicV
+                .. ',\n sfxVolume = ' .. sfxV .. ',\n fullScreen = '.. tostring(fullScreen) ..'\n}'
     love.filesystem.write('ConfSetings.lua', data)
-    print('save', Realww, Realwh, musicV, sfxV)
 end
 
 -- Update the windows dimentios variables
@@ -48,7 +47,6 @@ function cons:Resize()
     ww = Realww / scaleX
     wh = Realwh / scaleY
 end
-
 
 function cons:Debug()
     -- Debug statics

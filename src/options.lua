@@ -1,8 +1,11 @@
 local options = {}
 
-local arrow, changes, temp, op, windows, currenrW
+local arrow, changes, op, windows, currenrW
 
 function options:load()
+
+    input = require('simpleKey')
+    input:keyInit({'w','s','a','d','return'})
 
     arrow = {}
     arrow.img = love.graphics.newImage('arrow.png')
@@ -35,8 +38,6 @@ function options:load()
             'Menu'}
 
     changes = false
-
-    temp = 0.3
 
 end
 
@@ -77,23 +78,20 @@ end
 
 function options:update(dt)
 
-    temp = temp - dt
-    local key = love.keyboard.isDown
-    if key('w') and temp < 0 then arrow.pos, temp = arrow.pos - 1, 0.3 end
-    if key('s') and temp < 0 then arrow.pos, temp = arrow.pos + 1, 0.3 end
-    if key('a') and temp < 0 then 
+    input:updateInput()
+
+    if input:isReleased('w') then arrow.pos = arrow.pos - 1 end
+    if input:isReleased('s') then arrow.pos = arrow.pos + 1 end
+    if input:isReleased('a') then 
         change(-1, dt)
-        temp = 0.3
     end
-    if key('d') and temp < 0 then
+    if input:isReleased('d') then
         change( 1, dt)
-        temp = 0.3
     end
-    if key('return') and arrow.pos == 4 and temp < 0 then 
+    if input:isReleased('return') and arrow.pos == 4 then 
         constants:Save()
-        temp = 0.3 
     end
-    if key('return') and arrow.pos == 5 and temp < 0 then return 'menu' end
+    if input:isReleased('return') and arrow.pos == 5 then return 'menu' end
     if arrow.pos < 1 then arrow.pos = 5 end
     if arrow.pos > 5 then arrow.pos = 1 end
 

@@ -1,39 +1,41 @@
 local menu = {}
 
-local fw, fh, options, arrow, temp
+local fw, fh, options, arrow, input
 
 function menu:load()
 
-    options = { "Start",
-                 "Options",
-                 "Exit"}
+    input = require('simpleKey')
+    input:keyInit({'w','s','return'})
+
+    options = { 'Start',
+                 'Options',
+                 'Exit'}
 
     love.mouse.setVisible(false)
 
     arrow = {} 
-    arrow.img = love.graphics.newImage("arrow.png")
+    arrow.img = love.graphics.newImage('arrow.png')
     arrow.pos = 1
 
-    fw = front:getWidth("Options")
-    fh = front:getHeight(" ")
+    fw = front:getWidth('Options')
+    fh = front:getHeight(' ')
 
-    temp = 0.3
 end
 
 function menu:update(dt)
 
-    temp = temp - dt
-    local key = love.keyboard.isDown
+    input:updateInput()
+
     -- Move the arrow
-    if key("w") and (temp < 0) then arrow.pos, temp = arrow.pos - 1, 0.3 end
-    if key("s") and (temp < 0) then arrow.pos, temp = arrow.pos + 1, 0.3 end
+    if input:isReleased('w') then arrow.pos = arrow.pos - 1 end
+    if input:isReleased('s') then arrow.pos = arrow.pos + 1 end
     if arrow.pos < 1 then arrow.pos = 3 end
     if arrow.pos > 3 then arrow.pos = 1 end
 
     -- Select an option
-    if key("return") and arrow.pos == 1 and (temp < 0) then return "game/game" end
-    if key("return") and arrow.pos == 2 and (temp < 0) then return "opciones" end
-    if key("return") and arrow.pos == 3 and (temp < 0) then love.event.quit() end
+    if input:isReleased('return') and arrow.pos == 1 then return 'game/game' end
+    if input:isReleased('return') and arrow.pos == 2 then return 'options' end
+    if input:isReleased('return') and arrow.pos == 3 then love.event.quit() end
 
 end
 
