@@ -1,6 +1,6 @@
 local game = {}
 
-local mx = require "game/matrix/matrix"
+local mx = require 'game/matrix/matrix'
 local bird, pipe, alive, generation, best
 
 ---------------------------------------------------------------------
@@ -107,6 +107,27 @@ function game:load()
     pipe.g = 150
     pipe.w = 80
 
+    -- Canvas Ui
+    canvasUi = {}
+    canvasUi.canvas = love.graphics.newCanvas(220,600)
+    function canvasUi.update()
+        love.graphics.setCanvas(canvasUi.canvas)
+            love.graphics.clear()
+            love.graphics.setColor(108, 107, 233)
+            love.graphics.rectangle('fill',0,0,220,600)
+            love.graphics.setColor(255,255,255)
+            love.graphics.print('Genetation ' .. generation, 10, 10)
+            love.graphics.print('Alive ' .. alive, 10, 60)
+            love.graphics.print('Best Fitnest = ' .. math.floor(best), 10, 110)
+            love.graphics.print('Commands:', 10, 480)
+            love.graphics.print('"S"-Fast/Slow', 10, 500)
+            love.graphics.print('"K"-Kill all', 10, 520)
+            love.graphics.print('"Q"-Quit', 10, 540)
+        love.graphics.setCanvas()
+    end
+    canvasUi.update()
+
+
     -- Create te base population
     bird = {}
     for i=1, 10 do
@@ -117,10 +138,10 @@ function game:load()
         bird[i].speed = 0
         -- Neuron input x Amount of neurons
         -- Hiden layer
-        bird[i].hiden = mx(2, 5)
+        bird[i].hiden = mx(2, 6)
         mx.random(bird[i].hiden)
         -- Output layer
-        bird[i].output = mx(5, 1)
+        bird[i].output = mx(6, 1)
         mx.random(bird[i].output)
         -- Fitnes
         bird[i].fitnes = 0
@@ -177,6 +198,7 @@ function game:update(dt)
     -- Sort the birds by fitnes
     table.sort(bird, sortB)
     best = bird[1].fitnes
+    canvasUi.update()
     -- If every bird is dead make a new generation
     if dead >= 10 then
         killAndReproduce(bird)
@@ -194,11 +216,11 @@ function game:draw()
     end
     -- Draw pipe
     love.graphics.setColor(0,155,0)
-    love.graphics.rectangle("fill", pipe.x, 0, pipe.w, pipe.y)
-    love.graphics.rectangle("fill", pipe.x, pipe.y + pipe.g, pipe.w, 600 - pipe.y - pipe.g)
+    love.graphics.rectangle('fill', pipe.x, 0, pipe.w, pipe.y)
+    love.graphics.rectangle('fill', pipe.x, pipe.y + pipe.g, pipe.w, 600 - pipe.y - pipe.g)
     -- Draw info
     love.graphics.setColor(255,255,255)
-    love.graphics.print("Genetation " .. generation .. " Alive" .. alive .. " Best Fitnest = " .. best, 10, 10)
+    love.graphics.draw(canvasUi.canvas, 580, 0)
 end
 
 return game
