@@ -13,6 +13,7 @@ function love.update(dt)
     if switchState ~= nil then
         state = dofile(switchState .. '.lua')
         state:load()
+        collectgarbage('collect')
     end
 end
 
