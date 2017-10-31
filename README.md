@@ -8,5 +8,8 @@ This is my first approach to neural networks and artificial intelligence, so the
 ## Usage
 Run the .love file in the bin directory or run the code inside src.
 
+## Inspiration
+[Srdjan Susnic](https://www.youtube.com/watch?v=aeWmdojEJf0)
+
 ## Dependencies
 [Love2d](https://love2d.org/)
