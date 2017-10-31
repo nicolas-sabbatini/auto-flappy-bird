@@ -3,7 +3,8 @@ constants = require 'init'
 
 function love.load()
     constants:Init()
-    state = dofile('menu.lua')
+    state = love.filesystem.load('menu.lua')
+    state = state()
     state:load()
 end
 
@@ -11,7 +12,8 @@ function love.update(dt)
     local switchState
     switchState = state:update(dt)
     if switchState ~= nil then
-        state = dofile(switchState .. '.lua')
+        state = love.filesystem.load(switchState .. '.lua')
+        state = state()
         state:load()
         collectgarbage('collect')
     end
