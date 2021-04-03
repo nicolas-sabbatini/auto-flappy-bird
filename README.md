@@ -1,5 +1,4 @@
 # Auto Flappy Bird
->Disclaimer: English is not my first language and I never took a English class, fell free to correct any error o misspelling.
 
 ## Description
 Auto Flappy Bird is a shameless clone of the popular game Flappy Bird, with the twist that is played by a neural network that uses evolutionary algorithms to improve.  
