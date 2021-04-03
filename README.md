@@ -5,7 +5,9 @@ Auto Flappy Bird is a shameless clone of the popular game Flappy Bird, with the 
 This is my first approach to neural networks and artificial intelligence, so the implementation may not be very "clean".
 
 ## Usage
-Run the .love file in the bin directory or run the code inside src.
+cd into the src folder and run love (version 11.3) inside the folder.
+
+Or you can follow the [game distribution](https://love2d.org/wiki/Game_Distribution) guide of Love2D
 
 ## Inspiration
 [Srdjan Susnic](https://www.youtube.com/watch?v=aeWmdojEJf0)
